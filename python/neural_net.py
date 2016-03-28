@@ -1,3 +1,5 @@
+import numpy as np
+
 class Net():
   """
   Implements a neural network with a user-determined number and size of hidden layers.
@@ -70,7 +72,7 @@ class Net():
     exped_scores = np.exp(scores)
     sums = np.sum(exped_scores,axis=1)
     # softmax classifier loss
-    data_loss = (-1.0/N) * np.sum(np.log(exped_scores[range(N),y] / sums))
+    data_loss = (-1.0/N) * np.sum(np.log(exped_scores[range(N),y.astype(int)] / sums))
 
     # loss due to regularization
     reg_loss = 0
@@ -90,7 +92,7 @@ class Net():
         activation_grads.append(np.copy(self.activations[i]))
 
     DlossDscores = np.array(exped_scores / (N * np.matrix(sums).T))
-    DlossDscores[range(N),y] -= (1.0/N)
+    DlossDscores[range(N),y.astype(int)] -= (1.0/N)
     
     for i in xrange(len(Ws)-1,-1,-1):
         if i == 0:
